@@ -32,14 +32,8 @@ export default function BottomNav() {
             }`
           }
         >
-          {({ isActive }) => (
-            <>
-              <Icon size={18} />
-              <span className={`text-xs font-medium ${isActive ? 'font-semibold' : ''}`}>
-                {label}
-              </span>
-            </>
-          )}
+          <Icon size={18} />
+          <span className="text-xs font-medium">{label}</span>
         </NavLink>
       ))}
     </div>

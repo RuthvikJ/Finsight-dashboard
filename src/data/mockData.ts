@@ -1,6 +1,6 @@
 // src/data/mockData.ts
 
-import { Transaction, TransactionCategory } from '../types'
+import type { Transaction, TransactionCategory } from '../types'
 
 const id = (n: number) => `txn-${String(n).padStart(3, '0')}`
 

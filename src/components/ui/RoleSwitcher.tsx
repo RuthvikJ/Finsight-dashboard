@@ -1,7 +1,7 @@
 // src/components/ui/RoleSwitcher.tsx
 
 import { useStore } from '../../store/useStore'
-import { Role } from '../../types'
+import type { Role } from '../../types'
 
 export default function RoleSwitcher() {
   const { role, setRole, theme } = useStore()

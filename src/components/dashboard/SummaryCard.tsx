@@ -1,6 +1,7 @@
 // src/components/dashboard/SummaryCard.tsx
 
-import CountUp from 'react-countup'
+import _CountUp from 'react-countup'
+const CountUp = (_CountUp as any).default || _CountUp
 import { TrendingUp, TrendingDown } from 'lucide-react'
 import { useStore } from '../../store/useStore'
 

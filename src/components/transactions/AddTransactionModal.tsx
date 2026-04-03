@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import { useStore } from '../../store/useStore'
-import { Transaction, TransactionType, TransactionCategory } from '../../types'
+import type { Transaction, TransactionType, TransactionCategory } from '../../types'
 import { CATEGORIES } from '../../data/mockData'
 
 interface Props {

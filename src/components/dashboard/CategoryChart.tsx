@@ -62,8 +62,8 @@ export default function CategoryChart() {
               fontSize: '12px',
               color: isDark ? '#FAFAFA' : '#1C0A00',
             }}
-            formatter={(value: number) => [
-              `₹${value.toLocaleString('en-IN')}`,
+            formatter={(value: any) => [
+              `₹${Number(value).toLocaleString('en-IN')}`,
               'Spent',
             ]}
           />

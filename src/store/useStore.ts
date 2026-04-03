@@ -2,7 +2,7 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Transaction, Filters, Role, Theme } from '../types'
+import type { Transaction, Filters, Role, Theme } from '../types'
 import { mockTransactions } from '../data/mockData'
 
 interface StoreState {
@@ -73,7 +73,7 @@ export const useStore = create<StoreState>()(
         }),
         {
             name: 'finsight-storage',
-            partialise: (s) => ({
+            partialize: (s) => ({
                 transactions: s.transactions,
                 role: s.role,
                 theme: s.theme,

@@ -1,6 +1,6 @@
 // src/utils/finance.ts
 
-import { Transaction, MonthlySummary, CategorySummary, FinancialHealth, TransactionCategory } from '../types'
+import type { Transaction, MonthlySummary, CategorySummary, FinancialHealth, TransactionCategory } from '../types'
 
 export function getMonthlySummaries(transactions: Transaction[]): MonthlySummary[] {
     const map: Record<string, { income: number; expenses: number }> = {}

@@ -64,8 +64,8 @@ export default function BalanceChart() {
               fontSize: '12px',
               color: isDark ? '#FAFAFA' : '#1C0A00',
             }}
-            formatter={(value: number, name: string) => [
-              `₹${value.toLocaleString('en-IN')}`,
+            formatter={(value: any, name: any) => [
+              `₹${Number(value).toLocaleString('en-IN')}`,
               name === 'income' ? 'Income' : 'Expenses',
             ]}
           />
