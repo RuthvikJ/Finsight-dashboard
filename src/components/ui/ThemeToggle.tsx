@@ -9,22 +9,29 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className={`relative flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all duration-200 cursor-pointer ${isDark
-          ? 'bg-[#27272A] border-[#3F3F46] text-[#A1A1AA] hover:border-[#EA580C]'
-          : 'bg-white border-[#E7E5E4] text-[#57534E] hover:border-[#EA580C]'
-        }`}
+      className={`relative flex items-center justify-center w-[52px] h-[28px] rounded-full border-2 transition-all duration-300 ease-in-out cursor-pointer overflow-hidden ${
+        isDark
+          ? 'bg-[#18181B] border-[#3F3F46] hover:border-[#52525B]'
+          : 'bg-[#F5F5F4] border-[#E7E5E4] hover:border-[#D6D3D1]'
+      }`}
       aria-label="Toggle theme"
+      title="Toggle Theme"
     >
-      {/* Track */}
-      <div className={`relative w-8 h-4 rounded-full transition-colors duration-300 ${isDark ? 'bg-[#EA580C]' : 'bg-[#E7E5E4]'
-        }`}>
-        {/* Dot */}
-        <div className={`absolute top-0.5 w-3 h-3 rounded-full transition-all duration-300 ${isDark
-            ? 'translate-x-4 bg-white'
-            : 'translate-x-0.5 bg-[#D6D3D1]'
-          }`} />
-      </div>
-      <span>{isDark ? 'Dark' : 'Light'}</span>
+      {/* Track Background */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-300 ${
+          isDark ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+      
+      {/* Circle Icon Indicator */}
+      <div 
+        className={`absolute w-[20px] h-[20px] rounded-full shadow-sm transition-transform duration-300 ease-in-out flex items-center justify-center ${
+          isDark 
+            ? 'translate-x-[11px] bg-[#E4E4E5]' 
+            : '-translate-x-[11px] bg-white border border-[#E7E5E4]'
+        }`}
+      />
     </button>
   )
 }

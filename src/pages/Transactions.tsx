@@ -1,18 +1,17 @@
 // src/pages/Transactions.tsx
 
 import { useState } from 'react'
-import { Plus } from 'lucide-react'
 import { useStore, useFilteredTransactions } from '../store/useStore'
 import type { Transaction } from '../types'
 import TransactionFilters from '../components/transactions/TransactionFilters'
 import TransactionTable from '../components/transactions/TransactionTable'
 import AddTransactionModal from '../components/transactions/AddTransactionModal'
+import { formatCurrency } from '../utils/finance'
 
 export default function Transactions() {
-  const { role, theme } = useStore()
+  const { theme } = useStore()
   const transactions = useFilteredTransactions()
   const isDark = theme === 'dark'
-  const isAdmin = role === 'admin'
 
   const [showModal, setShowModal] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null)
@@ -29,27 +28,32 @@ export default function Transactions() {
     setEditingTransaction(null)
   }
 
-  return (
-    <div className="flex flex-col gap-4">
+  // Summary Row Calculations
+  const incomeTotal = transactions.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0)
+  const expenseTotal = transactions.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0)
 
-      {/* Top bar: filters + desktop add button */}
-      <div className="flex flex-col gap-4 mb-2">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <p className={`text-sm font-medium tracking-tight ${isDark ? 'text-[#A1A1AA]' : 'text-[#78716C]'}`}>
-            All historic activity • {transactions.length} total
-          </p>
-          {isAdmin && (
-            <button
-              onClick={() => setShowModal(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #EA580C 0%, #F97316 100%)' }}>
-              <Plus size={15} />
-              Add transaction
-            </button>
-          )}
+  return (
+    <div className="flex flex-col gap-5 w-full max-w-[1400px] mx-auto min-h-full">
+
+      {/* Top Filter Bar */}
+      <TransactionFilters onAddTransaction={() => setShowModal(true)} />
+
+      {/* Summary Row */}
+      <div className="flex items-center gap-3 overflow-x-auto pb-1 -mx-1 px-1">
+        <div className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${isDark ? 'bg-[#27272A] text-[#A1A1AA]' : 'bg-[#E7E5E4] text-[#A8A29E]'}`}>
+          <span>Showing:</span>
+          <span className={isDark ? 'text-[#FAFAFA]' : 'text-[#1C0A00]'}>{transactions.length} results</span>
+        </div>
+        
+        <div className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${isDark ? 'bg-[#10B981]/10 text-[#10B981]' : 'bg-green-50 text-green-700'}`}>
+          <span>Income:</span>
+          <span>+{formatCurrency(incomeTotal)}</span>
         </div>
 
-        <TransactionFilters />
+        <div className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold ${isDark ? 'bg-[#EF4444]/10 text-[#EF4444]' : 'bg-red-50 text-red-700'}`}>
+          <span>Expenses:</span>
+          <span>-{formatCurrency(expenseTotal)}</span>
+        </div>
       </div>
 
       {/* Transaction list */}

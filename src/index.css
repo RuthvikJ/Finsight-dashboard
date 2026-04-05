@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400..700&display=swap');
 @import "tailwindcss";
 
 *,
@@ -16,45 +17,16 @@ body,
 }
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth number rendering */
+/* Smooth number font rendering & DM Mono */
 .tabular-nums {
+  font-family: 'DM Mono', monospace;
   font-variant-numeric: tabular-nums;
-}
-
-/* Subtle scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: #d6d3d1;
-  border-radius: 4px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-}
-
-/* Improved text selection color */
-::selection {
-  background: #ffedd5;
-  color: #ea580c;
-}
-.dark ::selection {
-  background: #431407;
-  color: #fb923c;
-}
-
-/* Smooth number font rendering */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em; /* Tighter letter spacing for numbers */
 }
 
 /* Thin custom scrollbar */
@@ -71,6 +43,10 @@ body {
   background: #FFEDD5;
   color: #7C2D12;
 }
+.dark ::selection {
+  background: #431407;
+  color: #fb923c;
+}
 
 /* Remove number input arrows */
 input[type=number]::-webkit-inner-spin-button,
@@ -80,7 +56,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Smooth all theme transitions */
 *, *::before, *::after {
-  transition-property: background-color, border-color, color, opacity;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+  transition-property: background-color, border-color, color, opacity, transform, box-shadow;
+  transition-duration: 250ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
