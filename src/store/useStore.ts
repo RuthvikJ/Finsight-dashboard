@@ -13,6 +13,7 @@ interface StoreState {
     role: Role
     theme: Theme
     filters: Filters
+    timeRange: '1M' | '3M' | '6M'
 
     // transaction actions
     addTransaction: (t: Transaction) => void
@@ -27,6 +28,7 @@ interface StoreState {
     setRole: (role: Role) => void
     setTheme: (theme: Theme) => void
     toggleTheme: () => void
+    setTimeRange: (range: '1M' | '3M' | '6M') => void
 }
 
 const defaultFilters: Filters = {
@@ -45,6 +47,7 @@ export const useStore = create<StoreState>()(
             role: 'viewer',
             theme: 'light',
             filters: defaultFilters,
+            timeRange: '3M',
 
             addTransaction: (t) =>
                 set((s) => ({ transactions: [t, ...s.transactions] })),
@@ -70,6 +73,7 @@ export const useStore = create<StoreState>()(
             setTheme: (theme) => set({ theme }),
             toggleTheme: () =>
                 set((s) => ({ theme: s.theme === 'light' ? 'dark' : 'light' })),
+            setTimeRange: (timeRange) => set({ timeRange }),
         }),
         {
             name: 'finsight-storage',

@@ -36,7 +36,7 @@ export default function App() {
           {/* Main content */}
           <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
             <Header />
-            <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
+            <main className="flex-1 overflow-y-auto p-5 md:p-7 pb-20 md:pb-7">
               <Routes>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />

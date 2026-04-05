@@ -33,19 +33,17 @@ export default function Transactions() {
     <div className="flex flex-col gap-4">
 
       {/* Top bar: filters + desktop add button */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between gap-3">
-          <p className={`text-xs font-medium ${isDark ? 'text-[#71717A]' : 'text-[#A8A29E]'}`}>
-            {transactions.length} transaction{transactions.length !== 1 ? 's' : ''}
+      <div className="flex flex-col gap-4 mb-2">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <p className={`text-sm font-medium tracking-tight ${isDark ? 'text-[#A1A1AA]' : 'text-[#78716C]'}`}>
+            All historic activity • {transactions.length} total
           </p>
-
-          {/* Desktop add button — admin only */}
           {isAdmin && (
             <button
               onClick={() => setShowModal(true)}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#EA580C] text-white text-xs font-semibold hover:bg-[#C2410C] transition-colors duration-150"
-            >
-              <Plus size={14} />
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:opacity-90 active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #EA580C 0%, #F97316 100%)' }}>
+              <Plus size={15} />
               Add transaction
             </button>
           )}
@@ -56,17 +54,6 @@ export default function Transactions() {
 
       {/* Transaction list */}
       <TransactionTable onEdit={handleEdit} />
-
-      {/* Mobile FAB — admin only */}
-      {isAdmin && (
-        <button
-          onClick={() => setShowModal(true)}
-          className="md:hidden fixed bottom-20 right-4 z-40 w-12 h-12 rounded-full bg-[#EA580C] text-white flex items-center justify-center shadow-lg hover:bg-[#C2410C] transition-colors duration-150"
-          aria-label="Add transaction"
-        >
-          <Plus size={20} />
-        </button>
-      )}
 
       {/* Modal */}
       {isModalOpen && (
