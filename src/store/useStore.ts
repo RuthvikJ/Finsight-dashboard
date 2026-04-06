@@ -45,7 +45,7 @@ export const useStore = create<StoreState>()(
         (set) => ({
             transactions: mockTransactions,
             role: 'viewer',
-            theme: 'light',
+            theme: 'dark',
             filters: defaultFilters,
             timeRange: '3M',
 
