@@ -20,7 +20,7 @@ export default function MonthlyNetChart({ transactions }: Props) {
   const gridColor = isDark ? '#1E293B' : '#F1F5F9'
 
   return (
-    <div className={`rounded-2xl border p-8 flex flex-col gap-7 w-full h-full min-h-[380px] ${cardBg} transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]`}>
+    <div className={`rounded-2xl border p-7 flex flex-col gap-7 w-full h-full min-h-[380px] ${cardBg} transition-all duration-300 hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]`}>
 
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 ml-3">

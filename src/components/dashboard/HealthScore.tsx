@@ -64,7 +64,7 @@ export default function HealthScore({ transactions }: Props) {
   ]
 
   return (
-    <div className={`rounded-2xl border p-8 flex flex-col w-full ${cardBg} shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300`}>
+    <div className={`rounded-2xl border p-7 flex flex-col w-full ${cardBg} shadow-[0_2px_12px_rgba(0,0,0,0.04)] transition-all duration-300`}>
 
       {/* Header */}
       <div className="flex items-center justify-between mb-7 ml-3">

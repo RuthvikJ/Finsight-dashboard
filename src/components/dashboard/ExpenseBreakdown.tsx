@@ -60,7 +60,7 @@ export default function ExpenseBreakdown({ transactions }: Props) {
       }`}>
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6 ml-3">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className={`text-[13.5px] font-bold tracking-tight ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
             Expense Breakdown

@@ -45,20 +45,20 @@ export default function RevenueCard({ transactions }: Props) {
   }
 
   return (
-    <div className={`rounded-2xl border p-8 flex flex-col w-full h-full min-h-[440px] transition-all duration-300 overflow-hidden
+    <div className={`rounded-2xl border p-8 flex flex-col w-full h-full min-h-[420px] transition-all duration-300 
       ${isDark
         ? 'bg-[#13131A] border-[#1E1E2E] hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
         : 'bg-white border-[#E2E8F0] hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]'
       }`}>
 
       {/* Header */}
-      <div className="flex items-start justify-between mb-6 gap-4 ml-3">
+      <div className="flex items-start justify-between mb-4 gap-4">
         <div className="flex flex-col min-w-0">
-          <h3 className={`text-[13.5px] font-bold tracking-tight ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
+          <h3 className={`text-[14px] font-bold ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
             Revenue Overview
           </h3>
           <div className="flex items-baseline gap-2.5 mt-2 flex-wrap">
-            <span className={`text-[26px] font-black tracking-tight tabular-nums leading-none ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
+            <span className={`text-[28px] font-black tracking-tight tabular-nums leading-none ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
               {formatCurrency(sumIncome)}
             </span>
             <div className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-black
@@ -72,7 +72,7 @@ export default function RevenueCard({ transactions }: Props) {
         </div>
 
         {/* Filter tabs */}
-        <div className={`flex items-center p-0.5 rounded-xl shrink-0 ${isDark ? 'bg-[#1E293B]' : 'bg-[#F1F5F9]'}`}>
+        <div className={`flex items-center gap-2 p-1 rounded-xl shrink-0 ${isDark ? 'bg-[#1E293B]' : 'bg-[#F1F5F9]'}`}>
           {FILTERS.map((f) => (
             <button
               key={f}
@@ -96,7 +96,7 @@ export default function RevenueCard({ transactions }: Props) {
       {/* Chart */}
       <div className="flex-1 min-h-0">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 12, right: 8, left: -12, bottom: 4 }} barCategoryGap="30%">
+          <BarChart data={data} margin={{ top: 4, right: 0, left: -20, bottom: -8 }} barCategoryGap="30%">
             <XAxis
               dataKey="month"
               axisLine={false}

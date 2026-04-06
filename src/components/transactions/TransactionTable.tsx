@@ -52,7 +52,7 @@ export default function TransactionTable({ onEdit }: Props) {
   return (
     <>
       {/* ── Desktop Table ──────────────────────────────────────── */}
-      <div className={`hidden md:block rounded-2xl border overflow-hidden mt-3 transition-all duration-300
+      <div className={`hidden md:block rounded-2xl border overflow-hidden mt-3 min-h-[520px] flex flex-col transition-all duration-300
         ${isDark
           ? 'bg-[#13131A] border-[#1E1E2E] hover:shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
           : 'bg-white border-[#E2E8F0] hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)]'

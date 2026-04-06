@@ -15,7 +15,7 @@ export default function TransactionFilters({ onAddTransaction }: Props) {
 
   const selectBase = `text-[12.5px] font-semibold rounded-xl border px-3 py-2.5 outline-none transition-all duration-200 cursor-pointer appearance-none
     ${isDark
-      ? 'bg-[#1A1A24] border-[#1E293B] text-[#94A3B8] hover:border-[#334155] focus:border-[#F97316]/50'
+      ? 'bg-[#1A1A24] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#334155] focus:border-[#F97316]/50'
       : 'bg-white border-[#E2E8F0] text-[#475569] hover:border-[#CBD5E1] focus:border-[#F97316]/50'
     }`
 
@@ -26,7 +26,7 @@ export default function TransactionFilters({ onAddTransaction }: Props) {
       <div className="relative flex-1 min-w-[180px]">
         <Search
           size={15}
-          className={`absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none
+          className={`absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none
             ${isDark ? 'text-[#334155]' : 'text-[#CBD5E1]'}`}
         />
         <input
@@ -34,7 +34,7 @@ export default function TransactionFilters({ onAddTransaction }: Props) {
           placeholder="Search transactions..."
           value={filters.search}
           onChange={(e) => setFilter('search', e.target.value)}
-          className={`w-full pl-10 pr-4 py-2.5 text-[12.5px] font-semibold rounded-xl border outline-none transition-all duration-200
+          className={`w-full pl-12 pr-4 py-2.5 text-[12.5px] font-semibold rounded-xl border outline-none transition-all duration-200
             ${isDark
               ? 'bg-[#1A1A24] border-[#1E293B] text-[#F1F5F9] placeholder:text-[#1E293B] focus:border-[#F97316]/50'
               : 'bg-white border-[#E2E8F0] text-[#0F172A] placeholder:text-[#CBD5E1] focus:border-[#F97316]/50'

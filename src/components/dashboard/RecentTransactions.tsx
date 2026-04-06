@@ -19,14 +19,14 @@ export default function RecentTransactions({ transactions }: Props) {
     .slice(0, 6)
 
   return (
-    <div className={`rounded-2xl border flex flex-col w-full h-full min-h-[360px] transition-all duration-300
+    <div className={`rounded-2xl border p-7 flex flex-col w-full h-full min-h-[360px] transition-all duration-300
       ${isDark
         ? 'bg-[#13131A] border-[#1E1E2E] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
         : 'bg-white border-[#E2E8F0] hover:shadow-[0_4px_20px_rgba(0,0,0,0.05)]'
       }`}>
 
       {/* Header */}
-      <div className="flex items-center justify-between p-7 pb-5 ml-3">
+      <div className="flex items-center justify-between pb-4">
         <div>
           <h3 className={`text-[13.5px] font-bold tracking-tight ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
             Recent Activity
@@ -54,11 +54,11 @@ export default function RecentTransactions({ transactions }: Props) {
             <p className={`text-sm font-medium ${isDark ? 'text-[#334155]' : 'text-[#CBD5E1]'}`}>No recent activity</p>
           </div>
         ) : (
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-3.5">
             {recent.map((t, i) => (
               <div
                 key={t.id}
-                className={`flex items-center justify-between py-4 group transition-colors rounded-xl px-3 -mx-3
+                className={`flex items-center justify-between py-5 group transition-colors rounded-xl px-3 -mx-3
                   ${isDark ? 'hover:bg-[#1A1A24]' : 'hover:bg-[#F8FAFC]'}
                   ${i < recent.length - 1 ? `border-b ${isDark ? 'border-[#1E293B]' : 'border-[#F1F5F9]'}` : ''}`}
               >
