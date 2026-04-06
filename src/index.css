@@ -1,62 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-*,
-*::before,
-*::after {
+/* ── Reset ──────────────────────────────────────────────────── */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
-body,
-#root {
+html, body, #root {
   height: 100%;
   width: 100%;
 }
 
 body {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth number font rendering & DM Mono */
+/* ── Monospaced numbers ─────────────────────────────────────── */
 .tabular-nums {
   font-family: 'DM Mono', monospace;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em; /* Tighter letter spacing for numbers */
+  letter-spacing: -0.02em;
 }
 
-/* Thin custom scrollbar */
+/* ── Thin custom scrollbar ──────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #E7E5E4;
+  background: #E2E8F0;
   border-radius: 999px;
 }
-.dark ::-webkit-scrollbar-thumb { background: #3F3F46; }
+.dark ::-webkit-scrollbar-thumb { background: #1E293B; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* Warm text selection */
+/* ── Text selection ─────────────────────────────────────────── */
 ::selection {
   background: #FFEDD5;
-  color: #7C2D12;
+  color: #9A3412;
 }
 .dark ::selection {
-  background: #431407;
-  color: #fb923c;
+  background: #7C2D12;
+  color: #FED7AA;
 }
 
-/* Remove number input arrows */
+/* ── Remove number input arrows ─────────────────────────────── */
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
 
-/* Smooth all theme transitions */
-*, *::before, *::after {
-  transition-property: background-color, border-color, color, opacity, transform, box-shadow;
-  transition-duration: 250ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+/* ── Smooth theme transitions (selective — avoid transition on charts) ── */
+html {
+  color-scheme: dark;
 }
+.dark { color-scheme: dark; }

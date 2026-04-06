@@ -16,34 +16,33 @@ import RecentTransactions from '../components/dashboard/RecentTransactions'
 export default function Dashboard() {
   const { transactions, timeRange } = useStore()
 
-  // Compute filteredTxns
+  // Filtered transactions by time range
   const now = new Date('2025-06-30')
   const monthsBack = timeRange === '1M' ? 1 : timeRange === '3M' ? 3 : 6
   const cutoff = new Date(now)
   cutoff.setMonth(cutoff.getMonth() - monthsBack)
   const cutoffStr = cutoff.toISOString().slice(0, 10)
-  const filteredTxns = transactions.filter(t => t.date >= cutoffStr)
+  const filteredTxns = transactions.filter((t) => t.date >= cutoffStr)
 
   const balance = getBalance(filteredTxns)
   const income = getTotalIncome(filteredTxns)
   const expenses = getTotalExpenses(filteredTxns)
 
-  // Deltas mock 
+  // Mock deltas
   const incomeDelta = 12.4
   const expensesDelta = 5.2
   const savingsDelta = 68.6
 
   return (
-    <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto pb-10">
-      
-      {/* ── ROW 1: 4 Metric Cards Grid ────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+    <div className="flex flex-col gap-6 w-full">
+      {/* ── ROW 1: Summary Cards ─────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <SummaryCard
           type="balance"
           label="Total Balance"
           value={balance}
           isCurrency
-          delta={savingsDelta} 
+          delta={savingsDelta}
         />
         <SummaryCard
           type="income"
@@ -57,36 +56,35 @@ export default function Dashboard() {
           label="Total Expenses"
           value={expenses}
           isCurrency
-          delta={-expensesDelta} 
+          delta={-expensesDelta}
         />
         <SummaryCard
           type="savings"
           label="Transactions"
-          value={filteredTxns.length} 
+          value={filteredTxns.length}
         />
       </div>
 
-      {/* ── ROW 2: Revenue vs Breakdown ───────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_400px] gap-6 items-start">
-        <div className="flex w-full h-[460px]">
+      {/* ── ROW 2: Revenue Chart + Expense Breakdown + Health ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-5">
+        {/* Revenue bar chart */}
+        <div className="min-h-[420px]">
           <RevenueCard transactions={filteredTxns} />
         </div>
-        
-        <div className="flex flex-col gap-6 w-full">
+
+        {/* Stacked: Expense breakdown + Health score */}
+        <div className="flex flex-col gap-5">
           <ExpenseBreakdown transactions={filteredTxns} />
           <HealthScore transactions={filteredTxns} />
         </div>
       </div>
 
-      {/* ── ROW 3: Monthly Net vs Record Flow ────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 items-start">
-        <div className="flex w-full h-[460px]">
+      {/* ── ROW 3: Monthly Net Chart + Recent Transactions ───── */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5 pb-4">
+        <div className="min-h-[380px]">
           <MonthlyNetChart transactions={filteredTxns} />
         </div>
-        
-        <div className="flex flex-col w-full">
-          <RecentTransactions transactions={filteredTxns} />
-        </div>
+        <RecentTransactions transactions={filteredTxns} />
       </div>
 
     </div>

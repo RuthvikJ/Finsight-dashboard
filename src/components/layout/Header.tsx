@@ -1,82 +1,106 @@
 // src/components/layout/Header.tsx
 
 import { useLocation } from 'react-router-dom'
-import { Menu, Bell } from 'lucide-react'
+import { Menu, Bell, Settings } from 'lucide-react'
 import { useStore } from '../../store/useStore'
-import ThemeToggle from '../ui/ThemeToggle'
 import RoleSwitcher from '../ui/RoleSwitcher'
+import ThemeToggle from '../ui/ThemeToggle'
 
 interface Props {
   onMenuClick?: () => void
+  onSidebarToggle?: () => void
 }
 
-export default function Header({ onMenuClick }: Props) {
+export default function Header({ onMenuClick, onSidebarToggle }: Props) {
   const { pathname } = useLocation()
-  const theme = useStore((s) => s.theme)
+  const { theme } = useStore()
   const isDark = theme === 'dark'
 
   const title = pathname.split('/')[1] || 'dashboard'
   const displayTitle = title.charAt(0).toUpperCase() + title.slice(1)
 
+  const iconBtn = `p-2.5 rounded-xl transition-all duration-200 cursor-pointer
+    ${isDark
+      ? 'text-[#475569] hover:text-[#94A3B8] hover:bg-[#1E293B]'
+      : 'text-[#94A3B8] hover:text-[#475569] hover:bg-[#F1F5F9]'
+    }`
+
   return (
-    <div className={`w-full border-b transition-colors duration-300 z-40 ${
-      isDark ? 'border-[#27272A] bg-[#18181B]' : 'border-[#E7E5E4] bg-white'
-    }`}>
-      <div className="flex items-center justify-between px-6 md:px-8 py-5 min-h-[76px]">
-        
-        {/* Left Side: Menu Toggle + Title */}
-        <div className="flex items-center gap-4">
+    <header className={`w-full border-b shrink-0 z-40 transition-colors duration-200
+      ${isDark ? 'border-[#1E1E2E] bg-[#0F0F12]' : 'border-[#E2E8F0] bg-white'}`}>
+
+      <div className="flex items-center justify-between px-4 md:px-6 h-[68px] gap-4">
+
+        {/* ── Left: Hamburger + Title + Role Dropdown ── */}
+        <div className="flex items-center gap-4 min-w-0">
+
+          {/* Desktop sidebar toggle */}
+          <button
+            onClick={onSidebarToggle}
+            className={`hidden md:flex ${iconBtn} items-center justify-center`}
+            title="Toggle sidebar"
+          >
+            <Menu size={20} strokeWidth={2} />
+          </button>
+
+          {/* Mobile menu */}
           <button
             onClick={onMenuClick}
-            className={`md:hidden p-2 -ml-2 rounded-xl transition-colors ${
-              isDark ? 'hover:bg-[#27272A] text-[#FAFAFA]' : 'hover:bg-[#F5F5F4] text-[#1C0A00]'
-            }`}
+            className={`md:hidden flex items-center justify-center ${iconBtn}`}
           >
-            <Menu size={22} />
+            <Menu size={20} strokeWidth={2} />
           </button>
-          
-          <div className="flex items-center gap-4">
-            {/* Horizontal Accent Line */}
-            <span className="hidden sm:block w-5 h-[3px] rounded-full bg-gradient-to-r from-[#EA580C] to-[#C2410C] mt-0.5" />
-            
-            <div className="flex flex-col">
-              <h1 className={`text-[22px] md:text-2xl font-bold tracking-tight leading-none ${isDark ? 'text-[#FAFAFA]' : 'text-[#111827]'}`}>
-                {displayTitle}
-              </h1>
-              <span className={`text-[13px] mt-1.5 font-medium tracking-wide ${isDark ? 'text-[#71717A]' : 'text-[#6B7280]'}`}>
-                {displayTitle === 'Dashboard' ? 'Your financial overview at a glance' : `Manage your ${displayTitle.toLowerCase()}`}
-              </span>
-            </div>
+
+          {/* Divider */}
+          <div className={`hidden md:block w-px h-5 ${isDark ? 'bg-[#1E293B]' : 'bg-[#E2E8F0]'}`} />
+
+          {/* Page title */}
+          <h1 className={`text-[20px] font-bold tracking-tight leading-none truncate
+            ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
+            {displayTitle}
+          </h1>
+
+          {/* Gap + Role dropdown next to title */}
+          <div className="hidden sm:block ml-2">
+            <RoleSwitcher />
           </div>
+
         </div>
 
-        {/* Right Side: Actions */}
-        <div className="flex items-center gap-4 md:gap-6 shrink-0">
-          <div className="hidden sm:block">
-             <RoleSwitcher />
-          </div>
-          
-          <div className={`hidden sm:block w-px h-6 ${isDark ? 'bg-[#3F3F46]' : 'bg-[#E5E7EB]'}`} />
-          
+        {/* ── Right: Theme Toggle + Icons + Avatar ─── */}
+        <div className="flex items-center gap-2 shrink-0">
+
+          {/* iPhone-style theme toggle */}
           <ThemeToggle />
 
-          <button className={`p-2.5 rounded-full relative transition-colors ${
-            isDark ? 'bg-[#27272A] hover:bg-[#3F3F46] text-[#A1A1AA]' : 'bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#4B5563]'
-          }`}>
-             <Bell size={18} strokeWidth={2.5} />
-             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#EA580C] rounded-full ring-2 ring-white dark:ring-[#18181B]" />
+          {/* Divider */}
+          <div className={`w-px h-5 mx-1 ${isDark ? 'bg-[#1E293B]' : 'bg-[#E2E8F0]'}`} />
+
+          {/* Notifications */}
+          <button className={`${iconBtn} relative`} title="Notifications">
+            <Bell size={18} strokeWidth={2} />
+            <span className="absolute top-2 right-2 w-1.5 h-1.5 bg-[#F97316] rounded-full" />
           </button>
 
-          <button className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm tracking-widest transition-all focus:ring-4 ${
-            isDark 
-              ? 'bg-[#EA580C] text-white hover:opacity-90 focus:ring-[#EA580C]/20' 
-              : 'bg-[#EA580C] text-white hover:opacity-90 focus:ring-[#EA580C]/20'
-          }`}>
-             R
+          {/* Settings */}
+          <button className={iconBtn} title="Settings">
+            <Settings size={18} strokeWidth={2} />
           </button>
+
+          {/* Divider */}
+          <div className={`w-px h-5 mx-1 ${isDark ? 'bg-[#1E293B]' : 'bg-[#E2E8F0]'}`} />
+
+          {/* Admin avatar */}
+          <button
+            className="w-9 h-9 rounded-full bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center text-white text-[11px] font-black tracking-widest shadow-md shadow-orange-500/25 hover:opacity-90 transition-opacity"
+            title="Admin User"
+          >
+            AD
+          </button>
+
         </div>
 
       </div>
-    </div>
+    </header>
   )
 }

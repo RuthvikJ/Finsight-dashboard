@@ -1,79 +1,129 @@
 // src/components/layout/Sidebar.tsx
 
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, ArrowLeftRight, Lightbulb, X, Wallet } from 'lucide-react'
+import {
+  LayoutDashboard,
+  ArrowLeftRight,
+  Lightbulb,
+  TrendingUp,
+  BarChart3,
+  X,
+  ChevronRight,
+} from 'lucide-react'
 import { useStore } from '../../store/useStore'
-import { formatCurrency } from '../../utils/finance'
-
-const primaryLinks = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/transactions', label: 'Transactions', icon: ArrowLeftRight },
-  { to: '/insights', label: 'Insights', icon: Lightbulb },
-]
 
 interface Props {
-  onClose?: () => void
+  isCollapsed: boolean
+  onToggle: () => void
   isMobile?: boolean
+  onClose?: () => void
 }
 
-export default function Sidebar({ onClose, isMobile }: Props) {
+export default function Sidebar({ isCollapsed, onToggle, isMobile, onClose }: Props) {
   const theme = useStore((s) => s.theme)
-  const txns = useStore((s) => s.transactions)
   const isDark = theme === 'dark'
 
-  const income = txns.filter(t => t.type === 'income').reduce((s,t) => s+t.amount, 0)
-  const expense = txns.filter(t => t.type === 'expense').reduce((s,t) => s+t.amount, 0)
-  const netWorth = income - expense
+  const collapsed = isMobile ? false : isCollapsed
+
+  const bg = isDark
+    ? 'bg-[#13131A] border-[#1E1E2E]'
+    : 'bg-[#FFFFFF] border-[#E2E8F0]'
+
+  const width = collapsed ? 'w-[72px]' : 'w-[240px]'
 
   return (
-    <div className={`group flex flex-col h-screen border-r py-8 shadow-[1px_0_15px_rgba(0,0,0,0.03)] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] relative
-      ${isMobile ? 'w-[260px]' : 'w-[72px] hover:w-[220px]'}
-      ${isDark ? 'bg-[#121214] border-[#27272A]' : 'bg-[#FAFAFA] border-[#E5E7EB]'}`}>
+    <div
+      className={`flex flex-col h-screen border-r transition-[width] duration-300 ease-in-out relative shrink-0 overflow-hidden
+        ${bg} ${isMobile ? 'w-[240px]' : width}`}
+    >
 
-      {/* Logo Area */}
-      <div className={`flex items-center mb-10 h-10 px-4 ${isMobile ? 'justify-between' : 'justify-start'}`}>
-        <div className={`flex items-center gap-3 overflow-hidden ${!isMobile && 'w-10'}`}>
-          <div className="w-10 h-10 rounded-[10px] bg-gradient-to-br from-[#EA580C] to-[#C2410C] flex items-center justify-center shadow-md shadow-orange-500/20 shrink-0">
-             <span className="text-white text-[17px] font-black leading-none pb-px tracking-wider">FS</span>
-          </div>
-          <span className={`text-[22px] font-bold tracking-tight whitespace-nowrap transition-opacity duration-300
-            ${isMobile ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'}
-            ${isDark ? 'text-[#FAFAFA]' : 'text-[#111827]'}`}>
-            Fin<span className="text-[#EA580C]">Sight</span>
+      {/* ── Logo ─────────────────────────────────── */}
+      <div className={`flex items-center h-[68px] px-4 border-b shrink-0
+        ${isDark ? 'border-[#1E1E2E]' : 'border-[#E2E8F0]'}`}>
+        <div className="w-9 h-9 rounded-[10px] bg-gradient-to-br from-[#F97316] to-[#C2410C] flex items-center justify-center shadow-lg shadow-orange-500/25 shrink-0">
+          <span className="text-white text-[14px] font-black leading-none tracking-wider">FS</span>
+        </div>
+        <div className={`ml-3 flex flex-col overflow-hidden transition-all duration-300
+          ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+          <span className={`text-[18px] font-bold tracking-tight whitespace-nowrap
+            ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
+            Fin<span className="text-[#F97316]">Sight</span>
           </span>
         </div>
-        
         {isMobile && (
-          <button onClick={onClose} className={`p-1.5 rounded-lg shrink-0 ${isDark ? 'text-[#A1A1AA] hover:bg-[#27272A]' : 'text-[#9CA3AF] hover:bg-[#E5E7EB]'}`}>
-            <X size={20} />
+          <button
+            onClick={onClose}
+            className={`ml-auto p-1.5 rounded-lg shrink-0
+              ${isDark ? 'text-[#64748B] hover:bg-[#1E293B]' : 'text-[#94A3B8] hover:bg-[#F1F5F9]'}`}
+          >
+            <X size={18} />
           </button>
         )}
       </div>
 
-      <div className="flex flex-col gap-10 flex-1 overflow-y-auto overflow-x-hidden scrollbar-none px-2">
-        
-        {/* Main Nav */}
-        <nav className="flex flex-col gap-1.5">
-          {primaryLinks.map(({ to, label, icon: Icon }) => (
-            <NavItem key={to} to={to} label={label} Icon={Icon} isMobile={isMobile} isDark={isDark} onClose={onClose} />
-          ))}
-        </nav>
-
+      {/* ── Admin Profile ────────────────────────── */}
+      <div className={`flex items-center gap-3 px-4 py-4 mt-2 mx-2 rounded-xl shrink-0
+        ${isDark ? 'bg-[#1A1A24]' : 'bg-[#F8FAFC]'}`}>
+        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center shrink-0 shadow-md shadow-orange-500/20">
+          <span className="text-white text-[12px] font-black tracking-widest">AD</span>
+        </div>
+        <div className={`flex flex-col min-w-0 overflow-hidden transition-all duration-300
+          ${collapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+          <span className={`text-[13px] font-bold whitespace-nowrap truncate
+            ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>Admin User</span>
+          <span className={`text-[11px] font-medium whitespace-nowrap
+            ${isDark ? 'text-[#475569]' : 'text-[#94A3B8]'}`}>Administrator</span>
+        </div>
       </div>
 
-      {/* Net Worth Widget (Expanded Only) */}
-      <div className={`mt-auto whitespace-nowrap overflow-hidden transition-all duration-300 px-4
-        ${isMobile ? 'opacity-100 h-auto' : 'opacity-0 h-0 md:group-hover:opacity-100 md:group-hover:h-auto md:group-hover:mt-8'}`}>
-        <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#18181B] border-[#27272A]' : 'bg-white border-[#E5E7EB]'} shadow-sm`}>
-          <div className="flex items-center justify-between mb-3">
-             <div className={`p-1.5 rounded-lg ${isDark ? 'bg-[#EA580C]/20 text-[#EA580C]' : 'bg-orange-50 text-orange-600'}`}>
-                <Wallet size={16} />
-             </div>
-             <span className={`text-[11px] font-bold tracking-widest uppercase ${isDark ? 'text-[#71717A]' : 'text-[#9CA3AF]'}`}>Net Worth</span>
-          </div>
-          <div className={`text-xl font-bold tracking-tight tabular-nums ${isDark ? 'text-[#FAFAFA]' : 'text-[#111827]'}`}>
-            {formatCurrency(netWorth)}
-          </div>
+      {/* ── Navigation ───────────────────────────── */}
+      <nav className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden px-2 py-3 scrollbar-none mt-1">
+
+        {/* Dashboard */}
+        <NavItem to="/dashboard" label="Dashboard" Icon={LayoutDashboard}
+          collapsed={collapsed} isDark={isDark} isMobile={isMobile} onClose={onClose} />
+
+        {/* Data group */}
+        <div className="mt-4 mb-1">
+          {!collapsed ? (
+            <div className="px-3 py-1.5">
+              <span className={`text-[10px] font-black uppercase tracking-[0.12em]
+                ${isDark ? 'text-[#334155]' : 'text-[#CBD5E1]'}`}>Data</span>
+            </div>
+          ) : (
+            <div className={`mx-2 h-px my-2 ${isDark ? 'bg-[#1E293B]' : 'bg-[#E2E8F0]'}`} />
+          )}
+          <NavItem to="/transactions" label="Transactions" Icon={ArrowLeftRight}
+            collapsed={collapsed} isDark={isDark} isMobile={isMobile} onClose={onClose} />
+          <NavItem to="/reports" label="Reports" Icon={BarChart3}
+            collapsed={collapsed} isDark={isDark} isMobile={isMobile} onClose={onClose} />
+        </div>
+
+        {/* Insights — standalone */}
+        <div className="mt-4">
+          <NavItem to="/insights" label="Insights" Icon={Lightbulb}
+            collapsed={collapsed} isDark={isDark} isMobile={isMobile} onClose={onClose} />
+        </div>
+
+        {/* Live Market — standalone */}
+        <div className="mt-1">
+          <NavItem to="/market" label="Live Market" Icon={TrendingUp}
+            collapsed={collapsed} isDark={isDark} isMobile={isMobile} onClose={onClose} />
+        </div>
+
+      </nav>
+
+      {/* ── Bottom: Status ───────────────────────── */}
+      <div className={`px-4 py-4 border-t shrink-0
+        ${isDark ? 'border-[#1E1E2E]' : 'border-[#E2E8F0]'}`}>
+        <div className={`flex items-center gap-2 overflow-hidden
+          ${collapsed ? 'justify-center' : ''}`}>
+          <div className="w-1.5 h-1.5 rounded-full bg-[#22C55E] shrink-0 shadow-[0_0_6px_rgba(34,197,94,0.5)]" />
+          <span className={`text-[11px] font-semibold whitespace-nowrap transition-all duration-300
+            ${collapsed ? 'w-0 opacity-0' : 'opacity-100'}
+            ${isDark ? 'text-[#334155]' : 'text-[#CBD5E1]'}`}>
+            v1.0.0 · All systems normal
+          </span>
         </div>
       </div>
 
@@ -81,41 +131,53 @@ export default function Sidebar({ onClose, isMobile }: Props) {
   )
 }
 
-function NavItem({ to, label, Icon, isMobile, isDark, onClose }: any) {
+// ── Reusable NavItem ─────────────────────────
+function NavItem({
+  to, label, Icon, collapsed, isDark, isMobile, onClose
+}: {
+  to: string
+  label: string
+  Icon: any
+  collapsed: boolean
+  isDark: boolean
+  isMobile?: boolean
+  onClose?: () => void
+}) {
   return (
     <NavLink
       to={to}
       onClick={isMobile ? onClose : undefined}
+      title={collapsed ? label : undefined}
       className={({ isActive }) =>
-        `flex items-center rounded-xl transition-all duration-300 relative overflow-hidden group/nav h-12 w-full
+        `flex items-center rounded-xl transition-all duration-200 relative h-11 w-full
         ${isActive
-          ? isDark 
-            ? 'bg-[#27272A] text-[#FAFAFA]' 
-            : 'bg-white shadow-sm border border-[#E5E7EB] text-[#111827]'
-          : isDark 
-            ? 'text-[#A1A1AA] hover:bg-[#18181B] hover:text-[#FAFAFA]' 
-            : 'text-[#6B7280] hover:bg-[#F3F4F6] hover:text-[#111827]'
+          ? isDark
+            ? 'bg-[#F97316]/10 text-[#F97316]'
+            : 'bg-[#FFF7ED] text-[#EA580C]'
+          : isDark
+            ? 'text-[#475569] hover:bg-[#1E293B] hover:text-[#94A3B8]'
+            : 'text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#334155]'
         }`
       }
     >
       {({ isActive }) => (
         <>
-          <div className={`absolute left-0 top-1/2 -translate-y-1/2 h-7 w-1 transition-all duration-300 rounded-r-full
-            ${isActive ? 'bg-[#EA580C] opacity-100' : 'opacity-0'}`} />
-          
-          <div className="w-[56px] h-full flex items-center justify-center shrink-0 ml-0.5">
-            <Icon
-              size={22}
-              className={`transition-colors ${isActive ? 'text-[#EA580C]' : 'text-inherit'}`}
-              strokeWidth={isActive ? 2.5 : 2}
-            />
+          <div className={`absolute left-0 top-1/2 -translate-y-1/2 w-[3px] rounded-r-full transition-all duration-200
+            ${isActive ? 'h-6 bg-[#F97316] opacity-100' : 'h-0 opacity-0'}`} />
+
+          <div className="w-[44px] h-full flex items-center justify-center shrink-0">
+            <Icon size={19} strokeWidth={isActive ? 2.5 : 2} className="transition-colors" />
           </div>
-          
-          <span className={`whitespace-nowrap transition-all duration-300 text-[15px]
-            ${isActive ? 'font-bold' : 'font-semibold'}
-            ${isMobile ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-3 md:group-hover:opacity-100 md:group-hover:translate-x-0'}`}>
+
+          <span className={`text-[13.5px] whitespace-nowrap font-semibold overflow-hidden transition-all duration-300
+            ${collapsed ? 'w-0 opacity-0' : 'opacity-100'}
+            ${isActive ? 'font-bold' : ''}`}>
             {label}
           </span>
+
+          {isActive && !collapsed && (
+            <ChevronRight size={14} className="ml-auto mr-3 opacity-60" strokeWidth={2.5} />
+          )}
         </>
       )}
     </NavLink>

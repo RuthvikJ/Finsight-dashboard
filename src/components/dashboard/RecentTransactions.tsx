@@ -1,7 +1,7 @@
 // src/components/dashboard/RecentTransactions.tsx
 
 import { Link } from 'react-router-dom'
-import { Activity, TrendingUp, TrendingDown, ChevronRight } from 'lucide-react'
+import { TrendingUp, TrendingDown, ChevronRight } from 'lucide-react'
 import { useStore } from '../../store/useStore'
 import { formatCurrency, formatDate } from '../../utils/finance'
 import type { Transaction } from '../../types'
@@ -16,75 +16,85 @@ export default function RecentTransactions({ transactions }: Props) {
 
   const recent = [...transactions]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5)
-
-  const cardBg = isDark ? 'bg-[#18181B] border-[#27272A]' : 'bg-white border-[#E5E7EB]'
+    .slice(0, 6)
 
   return (
-    <div className={`rounded-2xl border flex flex-col w-full ${cardBg} shadow-[0_4px_12px_rgba(0,0,0,0.02)] transition-shadow duration-300 min-h-[460px]`}>
-      
-      <div className="flex items-center justify-between p-6 md:p-8 pb-4">
+    <div className={`rounded-2xl border flex flex-col w-full h-full min-h-[360px] transition-all duration-300
+      ${isDark
+        ? 'bg-[#13131A] border-[#1E1E2E] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)]'
+        : 'bg-white border-[#E2E8F0] hover:shadow-[0_4px_20px_rgba(0,0,0,0.05)]'
+      }`}>
+
+      {/* Header */}
+      <div className="flex items-center justify-between p-7 pb-5 ml-3">
         <div>
-          <h3 className={`text-base font-bold tracking-tight ${isDark ? 'text-[#FAFAFA]' : 'text-[#111827]'}`}>
-            Recent Transactions
+          <h3 className={`text-[13.5px] font-bold tracking-tight ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
+            Recent Activity
           </h3>
-          <p className={`text-[12px] mt-1 font-medium ${isDark ? 'text-[#71717A]' : 'text-[#9CA3AF]'}`}>
-            Your latest spending and income
+          <p className={`text-[11px] mt-0.5 font-medium ${isDark ? 'text-[#334155]' : 'text-[#94A3B8]'}`}>
+            Latest transactions
           </p>
         </div>
-        <Link 
-          to="/transactions" 
-          className={`flex items-center gap-1 text-[13px] font-bold transition-colors ${isDark ? 'text-[#A1A1AA] hover:text-[#FAFAFA]' : 'text-[#6B7280] hover:text-[#111827]'}`}
+        <Link
+          to="/transactions"
+          className={`flex items-center gap-0.5 text-[12px] font-bold transition-colors
+            ${isDark ? 'text-[#F97316] hover:text-[#FB923C]' : 'text-[#EA580C] hover:text-[#C2410C]'}`}
         >
-          View all <ChevronRight size={14} strokeWidth={3} />
+          View all <ChevronRight size={13} strokeWidth={2.5} />
         </Link>
       </div>
 
-      <div className="flex flex-col flex-1 px-6 md:px-8 pb-6 md:pb-8">
+      {/* Divider */}
+      <div className={`mx-7 h-px ${isDark ? 'bg-[#1E293B]' : 'bg-[#F1F5F9]'}`} />
+
+      {/* Transaction list */}
+      <div className="flex flex-col flex-1 px-7 py-5 overflow-hidden">
         {recent.length === 0 ? (
-          <div className="flex-1 flex items-center justify-center text-sm font-medium text-gray-500">
-            No recent activity
+          <div className="flex-1 flex items-center justify-center">
+            <p className={`text-sm font-medium ${isDark ? 'text-[#334155]' : 'text-[#CBD5E1]'}`}>No recent activity</p>
           </div>
         ) : (
-          <div className="flex flex-col divide-y divide-dashed dark:divide-[#3F3F46] divide-[#E5E7EB] flex-1 justify-center">
-            {recent.map((t) => (
-              <div key={t.id} className="flex items-center justify-between py-4 group">
-                
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors
-                    ${t.type === 'income' 
+          <div className="flex flex-col gap-0">
+            {recent.map((t, i) => (
+              <div
+                key={t.id}
+                className={`flex items-center justify-between py-4 group transition-colors rounded-xl px-3 -mx-3
+                  ${isDark ? 'hover:bg-[#1A1A24]' : 'hover:bg-[#F8FAFC]'}
+                  ${i < recent.length - 1 ? `border-b ${isDark ? 'border-[#1E293B]' : 'border-[#F1F5F9]'}` : ''}`}
+              >
+                {/* Left: icon + info */}
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors
+                    ${t.type === 'income'
                       ? isDark ? 'bg-emerald-500/10 text-emerald-500' : 'bg-emerald-50 text-emerald-600'
-                      : isDark ? 'bg-[#27272A] text-[#A1A1AA]' : 'bg-[#F3F4F6] text-[#4B5563]'}`}>
-                    {t.type === 'income' ? <TrendingUp size={18} /> : <TrendingDown size={18} />}
+                      : isDark ? 'bg-[#F97316]/10 text-[#F97316]' : 'bg-orange-50 text-orange-600'
+                    }`}>
+                    {t.type === 'income' ? <TrendingUp size={16} strokeWidth={2.5} /> : <TrendingDown size={16} strokeWidth={2.5} />}
                   </div>
-                  
-                  <div className="flex flex-col gap-1">
-                    <span className={`text-[14px] font-bold ${isDark ? 'text-[#FAFAFA]' : 'text-[#111827]'}`}>
+
+                  <div className="flex flex-col min-w-0">
+                    <span className={`text-[13px] font-bold truncate ${isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'}`}>
                       {t.description}
                     </span>
-                    <div className="flex items-center gap-2">
-                       <span className={`flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-[#A1A1AA]' : 'text-[#6B7280]'}`}>
-                         <Activity size={10} /> {t.category}
-                       </span>
-                    </div>
+                    <span className={`text-[10px] font-medium truncate ${isDark ? 'text-[#334155]' : 'text-[#94A3B8]'}`}>
+                      {t.category} · {formatDate(t.date)}
+                    </span>
                   </div>
                 </div>
 
-                <div className="flex flex-col items-end gap-1">
-                  <span className={`text-[14px] font-bold tabular-nums ${t.type === 'income' ? (isDark ? 'text-[#10B981]' : 'text-[#059669]') : (isDark ? 'text-[#FAFAFA]' : 'text-[#111827]')}`}>
-                    {t.type === 'income' ? '+' : '−'}{formatCurrency(t.amount)}
-                  </span>
-                  <span className={`text-[12px] font-medium ${isDark ? 'text-[#71717A]' : 'text-[#9CA3AF]'}`}>
-                    {formatDate(t.date)}
-                  </span>
-                </div>
-
+                {/* Right: amount */}
+                <span className={`text-[13px] font-black tabular-nums shrink-0 ml-3
+                  ${t.type === 'income'
+                    ? isDark ? 'text-emerald-400' : 'text-emerald-600'
+                    : isDark ? 'text-[#F1F5F9]' : 'text-[#0F172A]'
+                  }`}>
+                  {t.type === 'income' ? '+' : '−'}{formatCurrency(t.amount)}
+                </span>
               </div>
             ))}
           </div>
         )}
       </div>
-      
     </div>
   )
 }
