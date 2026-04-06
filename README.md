@@ -42,10 +42,15 @@ It was built to demonstrate how a modern React application can organize UI state
 > Add screenshots to a `screenshots/` directory to make this section render immediately on GitHub.
 
 ![Dashboard Preview](./screenshots/Dashboard.jpeg)
+
 ![Transactions Preview](./screenshots/Transactions.jpeg)
+
 ![Insights Preview](./screenshots/Insights.jpeg)
+
 ![Reports Preview](./screenshots/Reports.jpeg)
+
 ![Live-Market Preview](./screenshots/livemarket.jpeg)
+
 
 ## Tech Stack
 
